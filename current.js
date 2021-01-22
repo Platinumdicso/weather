@@ -15,7 +15,7 @@ function setQuery(e) {
 }
 
 function getResults(query) {
-  fetch(`${APi.url}weather?q=${query}&APPID=${APi.key}`)
+  fetch(`${APi.url}weather?q=${query}&units=metric&APPID=${APi.key}`)
     .then(function (weather) {
       return weather.json();
     }).then(displayResults);
@@ -25,6 +25,13 @@ function displayResults(weather) {
   if (weather.cod === '404') {
     alert('Invalide city name')
   }
+
+  // let lon = document.querySelector('.coord .lon');
+  // lon.innerHTML = `${weather.coord.lon}`;
+
+  // let lat = document.querySelector('.coord .lat');
+  // lat.innerHTML = `${weather.coord.lat}`;
+
   let city = document.querySelector('.location .city');
   city.innerHTML = `${weather.name}, ${weather.sys.country}`;
 
@@ -32,12 +39,12 @@ function displayResults(weather) {
   let date = document.querySelector('.location .date');
   date.innerHTML = now.toLocaleDateString('en-US', options);
 
-  let temp = document.querySelector('.current .temp');
-  temp.innerHTML = `${Math.round(weather.main.temp - 273.15)}<span>℃</span>`
-
   let weather_el = document.querySelector('.current .weather');
   weather_el.innerHTML = weather.weather[0].main;
 
+  let temp = document.querySelector('.current .temp');
+  temp.innerHTML = `${Math.round(weather.main.temp)}<span>℃</span>`
+
   let hilow = document.querySelector('.hi-low');
-  hilow.innerHTML = `${Math.round(weather.main.temp_min - 273.15)}℃ / ${Math.round(weather.main.temp_max - 273.15)}℃`;
-}
+  hilow.innerHTML = `${Math.round(weather.main.temp_min)}℃ / ${Math.round(weather.main.temp_max)}℃`;
+} 
